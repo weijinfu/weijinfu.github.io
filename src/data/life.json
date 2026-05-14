@@ -1,0 +1,50 @@
+{
+  "travel": [
+    {
+      "title": "Travel of Yunnan",
+      "place": "Yunnan",
+      "year": "2025",
+      "folder": "/assets/travel/Yunnan",
+      "summary": "Thanks for my friends."
+    }
+  ],
+  "games": [
+    {
+      "title": "Red Dead Redemption 2",
+      "platform": "PC",
+      "year": "2025",
+      "status": "Playing",
+      "image": "/assets/games/RDR2.jpeg"
+    },
+    {
+      "title": "The Legend of Zelda",
+      "platform": "Switch",
+      "year": "2025",
+      "status": "Completed",
+      "image": "/assets/games/The%20Legend%20of%20Zelda.jpeg"
+    }
+  ],
+  "books": [
+    {
+      "title": "无人生还",
+      "author": "Agatha Christie",
+      "year": "2025",
+      "note": "我的阿婆入坑作，从此一发不可收拾。",
+      "image": "/assets/books/Agatha%20Christie/%E6%97%A0%E4%BA%BA%E7%94%9F%E8%BF%98.jpg"
+    },
+    {
+      "title": "阳光下的罪恶",
+      "author": "Agatha Christie",
+      "year": "2025",
+      "note": "脑子跟不上了，反复观看时间线...",
+      "image": "/assets/books/Agatha%20Christie/%E9%98%B3%E5%85%89%E4%B8%8B%E7%9A%84%E7%BD%AA%E6%81%B6.jpg"
+    },
+    {
+      "title": "占星术杀人魔法",
+      "author": "Soji Shimada",
+      "year": "2025",
+      "note": "烟雾弹给的很充足，但最后的手法还是感觉很巧妙。",
+      "image": "/assets/books/Soji%20Shimada/%E5%8D%A0%E6%98%9F%E6%9C%AF%E6%9D%80%E4%BA%BA%E9%AD%94%E6%B3%95.jpg"
+    }
+  ]
+}

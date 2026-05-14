@@ -1,0 +1,16 @@
+[
+  {
+    "title": "Rendering Asset Collection",
+    "type": "Rendering",
+    "summary": "A curated set of rendering assets, materials, or experiments.",
+    "image": "render-asset",
+    "href": "#"
+  },
+  {
+    "title": "VoiceClone-Web",
+    "type": "AI Voice / Web",
+    "summary": "A web project for voice cloning experiments, with the source code hosted on GitHub.",
+    "image": "/assets/projects/voiceclone-ui.png",
+    "href": "https://github.com/weijinfu/VoiceClone-Web"
+  }
+]

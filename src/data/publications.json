@@ -1,0 +1,75 @@
+[
+  {
+    "title": "Few-Shot 3D Face Generation via a Controllable Diffusion Model Guided by Text and Images",
+    "authors": ["Jinfu Wei", "Zheng Zhang", "Ran Liao", "Duan Gao"],
+    "venue": "ICME",
+    "year": "2025",
+    "summary": "ControlFace generates computer-graphics-friendly 3D faces from text and image guidance using a controllable diffusion model trained with few-shot 3D facial assets.",
+    "image": "/assets/publications/controlface.png",
+    "tags": ["3D Face", "Diffusion", "PBR Assets"],
+    "links": [
+      { "label": "PDF", "href": "/assets/publications/controlface.pdf" }
+    ]
+  },
+  {
+    "title": "UniFaceGAN: High-Quality 3D Face Editing With a Unified Latent Space",
+    "authors": ["Jinfu Wei", "Zheng Zhang", "Qinchuan Zhang", "Ran Liao", "Duan Gao"],
+    "venue": "ICME",
+    "year": "2025",
+    "summary": "UniFaceGAN builds a unified latent space for high-quality 3D facial editing, supporting stylization, point-based drag manipulation, and local blending.",
+    "image": "/assets/publications/unifacegan.png",
+    "tags": ["3D Face", "GAN", "Editing"],
+    "links": [
+      { "label": "PDF", "href": "/assets/publications/unifacegan.pdf" }
+    ]
+  },
+  {
+    "title": "DreamPBR: Text-driven High-Resolution SVBRDF Generation with Multimodal Guidance",
+    "authors": ["Linxuan Xin", "Zheng Zhang", "Zhiyi Pan", "Jinfu Wei", "Wei Gao", "Duan Gao"],
+    "venue": "ICME",
+    "year": "2025",
+    "summary": "DreamPBR generates high-resolution physically based materials and SVBRDF parameter maps from text and multimodal controls.",
+    "image": "/assets/publications/dreamepbr.png",
+    "tags": ["PBR", "SVBRDF", "Material Generation"],
+    "links": [
+      { "label": "PDF", "href": "/assets/publications/dreampbr.pdf" }
+    ]
+  },
+  {
+    "title": "Dual-Process Watermarked Diffusion: Integrating Watermarking With Denoising in Point Clouds",
+    "authors": ["Jinfu Wei", "Heng Chang", "Xiaohang Liu", "Li Liu", "Shiji Zhou", "Chengyuan Li", "Di Xu", "Wei Gao", "Ran Liao"],
+    "venue": "ICASSP",
+    "year": "2025",
+    "summary": "DPWD embeds robust watermarks into diffusion models for point cloud generation, protecting model ownership while preserving generation quality.",
+    "image": "/assets/publications/dpwd.png",
+    "tags": ["Watermarking", "Diffusion", "Point Clouds"],
+    "links": [
+      { "label": "PDF", "href": "/assets/publications/dpwd.pdf" }
+    ]
+  },
+  {
+    "title": "Implanting Robust Watermarks in Latent Diffusion Models for Video Generation",
+    "authors": ["Xiaohang Liu", "Heng Chang", "Jinfu Wei", "Lei Zhu", "Li Liu", "Likun Li", "Shiji Zhou", "Chengyuan Li", "Di Xu", "Wei Gao"],
+    "venue": "ICASSP",
+    "year": "2025",
+    "summary": "Stable Video Signature integrates watermarking into latent diffusion video generation with temporal consistency and robustness against attacks.",
+    "image": "/assets/publications/svs.png",
+    "tags": ["Watermarking", "Video Generation", "Latent Diffusion"],
+    "links": [
+      { "label": "PDF", "href": "/assets/publications/svs.pdf" }
+    ]
+  },
+  {
+    "title": "Polarization fingerprint for microalgae classification",
+    "authors": ["Jiajin Li", "Jinfu Wei", "Hongyuan Liu", "Jiachen Wan", "Tongyu Huang", "Hongjian Wang", "Ran Liao", "Meng Yan", "Hui Ma"],
+    "venue": "Optics and Lasers in Engineering",
+    "year": "2023",
+    "summary": "This work uses Mueller-matrix-based polarization fingerprints and machine learning to classify microalgae by physically meaningful polarization parameters.",
+    "image": "paper-gradient",
+    "tags": ["Polarization", "Microalgae", "Classification"],
+    "links": [
+      { "label": "PDF", "href": "/assets/publications/Polarization%20fingerprint.pdf" },
+      { "label": "DOI", "href": "https://doi.org/10.1016/j.optlaseng.2023.107567" }
+    ]
+  }
+]

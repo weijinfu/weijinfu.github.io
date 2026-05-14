@@ -1,0 +1,18 @@
+{
+  "name": "weijinfu.github.io",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "ASTRO_TELEMETRY_DISABLED=1 astro dev",
+    "build": "ASTRO_TELEMETRY_DISABLED=1 astro build",
+    "preview": "ASTRO_TELEMETRY_DISABLED=1 astro preview"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.9.4",
+    "@astrojs/markdown-remark": "^6.3.11",
+    "astro": "^5.15.4",
+    "typescript": "^5.9.3"
+  },
+  "devDependencies": {}
+}

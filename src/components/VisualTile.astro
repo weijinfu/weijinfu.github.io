@@ -1,0 +1,12 @@
+---
+const { variant = 'paper-gradient', image, label, title, meta, size = 'm' } = Astro.props;
+---
+
+<div class={`visual-tile tile-${size} ${image ? 'with-image' : variant}`}>
+  {image && <img src={image} alt="" loading="lazy" />}
+  <div>
+    {label && <span>{label}</span>}
+    {title && <strong>{title}</strong>}
+    {meta && <small>{meta}</small>}
+  </div>
+</div>

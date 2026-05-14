@@ -1,0 +1,13 @@
+---
+const { href, label, title, meta, summary, class: className } = Astro.props;
+const Tag = href ? 'a' : 'article';
+---
+
+<Tag class:list={['content-card', className]} href={href}>
+  {label && <span class="card-label">{label}</span>}
+  <div>
+    <h3>{title}</h3>
+    {meta && <p class="card-meta">{meta}</p>}
+  </div>
+  {summary && <p>{summary}</p>}
+</Tag>

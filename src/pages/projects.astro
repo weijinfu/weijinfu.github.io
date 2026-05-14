@@ -1,0 +1,40 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import SectionHeader from '@components/SectionHeader.astro';
+import VisualTile from '@components/VisualTile.astro';
+import projects from '@data/projects.json';
+---
+
+<BaseLayout title="Projects | Jinfu Wei" description="Rendering assets, mini games, and creative projects.">
+  <section class="page-hero">
+    <p class="hero-meta">Projects</p>
+    <h1>Rendering assets and mini games.</h1>
+    <p>A visual shelf for technical experiments, creative tools, and playable prototypes.</p>
+  </section>
+
+  <section class="section">
+    <SectionHeader title="Featured Projects" description="Each project can link to a live demo, repository, gallery, or write-up." />
+    <div class="card-grid two">
+      {projects.map((project) => (
+        <a
+          class="content-card"
+          href={project.href}
+          target={project.href.startsWith('http') ? '_blank' : undefined}
+          rel={project.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+        >
+          <VisualTile
+            image={project.image?.startsWith('/') ? project.image : undefined}
+            variant={project.image?.startsWith('/') ? undefined : project.image}
+            label={project.type}
+            title={project.title}
+          />
+          <div>
+            <span class="card-label">{project.type}</span>
+            <h3>{project.title}</h3>
+            <p>{project.summary}</p>
+          </div>
+        </a>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

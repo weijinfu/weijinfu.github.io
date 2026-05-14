@@ -1,0 +1,49 @@
+{
+  "name": "Jinfu Wei",
+  "headline": "Researcher, builder, and lifelong learner.",
+  "intro": "I work across research, engineering, and creative systems, with interests spanning academic papers, rendering assets, mini games, notes, books, and travel.",
+  "location": "Suzhou, China",
+  "email": "weijf2000@gmail.com",
+  "photo": {
+    "src": "/assets/profile-photo.jpeg",
+    "alt": "Portrait of Jinfu Wei"
+  },
+  "links": [
+    { "label": "Email", "href": "mailto:weijf2000@gmail.com", "icon": "email" },
+    { "label": "GitHub", "href": "https://github.com/Weijinfu", "icon": "github" },
+    { "label": "Scholar", "href": "https://scholar.google.com/citations?user=6CsC1EMAAAAJ&hl=en", "icon": "scholar" },
+    { "label": "Resume", "href": "/assets/Resume.pdf", "icon": "resume" }
+  ],
+  "education": [
+    {
+      "school": "Tsinghua University",
+      "degree": "Master of Electronic Information",
+      "period": "Sep 2022 - Jul 2025",
+      "detail": "GPA: 3.85/4.0; advised by Prof. Ran Liao; field: Artificial Intelligence.",
+      "logo": "/assets/logos/tsinghua-university.svg"
+    },
+    {
+      "school": "Shanghai Polytechnic University",
+      "degree": "Bachelor of Software Engineering",
+      "period": "Sep 2018 - Jul 2022",
+      "detail": "GPA: 4.04/5.0, rank: 2/141; programming contest and scholarship awards.",
+      "logo": "/assets/logos/shanghai-polytechnic-university.png"
+    }
+  ],
+  "work": [
+    {
+      "company": "Dreame Technique",
+      "role": "Algorithm Engineer",
+      "period": "July 2025 - Present",
+      "detail": "RL, VLA",
+      "logo": "/assets/logos/dreame-wordmark-gold.png"
+    },
+    {
+      "company": "Huawei Cloud Technique",
+      "role": "Research Intern",
+      "period": "May 2023 - Dec 2024",
+      "detail": "AIG3D research with Dr. Duan Gao.",
+      "logo": "/assets/logos/huawei-official-header.png"
+    }
+  ]
+}

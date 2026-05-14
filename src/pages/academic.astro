@@ -1,0 +1,50 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import SectionHeader from '@components/SectionHeader.astro';
+import publications from '@data/publications.json';
+---
+
+<BaseLayout title="Academic | Jinfu Wei" description="Publications and academic work by Jinfu Wei.">
+  <section class="page-hero">
+    <p class="hero-meta">Academic</p>
+    <h1>Publications and research notes.</h1>
+    <p>Paper entries are structured for thumbnails, abstracts, venues, years, tags, and external links.</p>
+  </section>
+
+  <section class="section">
+    <SectionHeader title="Selected Publications" description="Replace the placeholders with real paper metadata, images, and links." />
+    <div class="card-grid two">
+      {publications.map((paper) => (
+        <article class="content-card publication-card">
+          {paper.image?.startsWith('/') ? (
+            <div class="publication-media">
+              <img src={paper.image} alt={`${paper.title} preview`} loading="lazy" />
+            </div>
+          ) : (
+            <div class={`publication-media publication-placeholder ${paper.image}`}>
+              <span>{paper.venue}</span>
+            </div>
+          )}
+          <div class="publication-body">
+            <span class="card-label">{paper.tags.join(' / ')}</span>
+            <h3>{paper.title}</h3>
+            <p class="publication-authors">
+              {paper.authors.map((author, index) => (
+                <>
+                  <span class:list={{ 'self-author': author === 'Jinfu Wei' }}>{author}</span>{index < paper.authors.length - 1 ? ', ' : ''}
+                </>
+              ))}
+            </p>
+            <p class="card-meta">{paper.venue} · {paper.year}</p>
+            <p class="publication-summary">{paper.summary}</p>
+            <div class="link-row publication-actions">
+              {paper.links.map((link) => (
+                <a href={link.href} target="_blank" rel="noopener noreferrer">{link.label}</a>
+              ))}
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

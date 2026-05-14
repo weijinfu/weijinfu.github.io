@@ -1,0 +1,52 @@
+---
+import '../styles/global.css';
+
+const {
+  title = 'Jinfu Wei',
+  description = 'Personal homepage of Jinfu Wei.',
+} = Astro.props;
+
+const navItems = [
+  { label: 'Home', href: '/' },
+  { label: 'Academic', href: '/academic/' },
+  { label: 'Leisure', href: '/life/' },
+  { label: 'Notes', href: '/notes/' },
+  { label: 'Projects', href: '/projects/' },
+];
+
+const currentPath = Astro.url.pathname;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content={description} />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="google-site-verification" content="qPowlZKEWAS8v9nyyxXJq5hFPl4DRCWqSSgs5s8x-l4" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="/" aria-label="Jinfu Wei home">
+        <span class="brand-mark">W</span>
+        <span>Jinfu's HomePage</span>
+      </a>
+      <nav class="site-nav" aria-label="Main navigation">
+        {navItems.map((item) => (
+          <a href={item.href} class:list={{ active: currentPath === item.href || (item.href !== '/' && currentPath.startsWith(item.href)) }}>
+            {item.label}
+          </a>
+        ))}
+      </nav>
+    </header>
+    <main>
+      <slot />
+    </main>
+    <footer class="site-footer">
+      <span>Designed as a quiet launch page for research, work, leisure, notes, and projects.</span>
+      <a href="mailto:hello@example.com">Contact</a>
+    </footer>
+  </body>
+</html>

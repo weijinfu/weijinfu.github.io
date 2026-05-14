@@ -1,0 +1,151 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import SectionHeader from '@components/SectionHeader.astro';
+import VisualTile from '@components/VisualTile.astro';
+import Card from '@components/Card.astro';
+import Icon from '@components/Icon.astro';
+import profile from '@data/profile.json';
+import publications from '@data/publications.json';
+import life from '@data/life.json';
+import notes from '@data/notes.json';
+import projects from '@data/projects.json';
+import { existsSync, readdirSync, statSync } from 'node:fs';
+import path from 'node:path';
+
+const publicDir = path.join(process.cwd(), 'public');
+const browserImageExtensions = new Set(['.jpg', '.jpeg', '.png', '.webp', '.avif', '.gif']);
+const normalizeFolderUrl = (folder) => `/${folder.replace(/^\/+/, '').replace(/\/+$/, '')}`;
+const firstTravelFolder = life.travel?.[0]?.folder;
+const firstTravelFolderUrl = firstTravelFolder ? normalizeFolderUrl(firstTravelFolder) : undefined;
+const firstTravelFolderPath = firstTravelFolderUrl ? path.join(publicDir, firstTravelFolderUrl.replace(/^\//, '')) : undefined;
+const firstTravelImage = firstTravelFolder
+  && firstTravelFolderPath
+  && existsSync(firstTravelFolderPath)
+  && statSync(firstTravelFolderPath).isDirectory()
+  ? readdirSync(firstTravelFolderPath)
+      .filter((file) => browserImageExtensions.has(path.extname(file).toLowerCase()))
+      .sort((a, b) => a.localeCompare(b, undefined, { numeric: true }))[0]
+  : undefined;
+const travelPreviewImage = firstTravelFolderUrl && firstTravelImage
+  ? `${firstTravelFolderUrl}/${encodeURIComponent(firstTravelImage)}`
+  : undefined;
+const shuffle = (items) => [...items].sort(() => Math.random() - 0.5);
+const shortPaperTitle = (title) => {
+  if (title.startsWith('Few-Shot 3D Face Generation')) return 'ControlFace';
+  if (title.startsWith('UniFaceGAN')) return 'UniFaceGAN';
+  if (title.startsWith('DreamPBR')) return 'DreamPBR';
+  if (title.startsWith('Dual-Process Watermarked Diffusion')) return 'DPWD';
+  if (title.startsWith('Implanting Robust Watermarks')) return 'Stable Video Signature';
+  if (title.startsWith('Polarization fingerprint')) return 'Polarization Fingerprint';
+  return title;
+};
+const travelTiles = travelPreviewImage
+  ? [{ image: travelPreviewImage, variant: 'travel-soft', label: 'Travel', title: life.travel?.[0]?.title || firstTravelFolder || 'Travel Album', meta: life.travel?.[0]?.place || 'Album' }]
+  : [];
+const tilePool = [
+  ...publications.slice(0, 5).map((paper) => ({ image: paper.image?.startsWith('/') ? paper.image : undefined, variant: paper.image?.startsWith('/') ? undefined : paper.image, label: 'Publication', title: shortPaperTitle(paper.title), meta: paper.venue ? `${paper.venue} · ${paper.year}` : paper.year })),
+  ...notes.slice(0, 3).map((note) => ({ variant: 'paper-mesh', label: note.type, title: note.title, meta: note.date })),
+  ...projects.map((project) => ({
+    image: project.image?.startsWith('/') ? project.image : undefined,
+    variant: project.image?.startsWith('/') ? undefined : project.image,
+    label: 'Project',
+    title: project.title,
+    meta: project.type,
+  })),
+  ...travelTiles,
+  ...life.games.map((game) => ({ image: game.image, variant: 'game-grid', label: 'Game', title: game.title, meta: game.status })),
+  ...life.books.map((book) => ({ image: book.image, variant: 'travel-warm', label: 'Book', title: book.title, meta: book.year })),
+];
+const sizePattern = shuffle(['xl', 'l', 'l', 'm', 'm', 'm', 'm', 's', 's', 'wide']);
+const tiles = shuffle(tilePool).slice(0, 10).map((tile, index) => ({
+  ...tile,
+  size: sizePattern[index] || 'm',
+}));
+---
+
+<BaseLayout title="Jinfu Wei | Personal Homepage" description={profile.intro}>
+  <section class="hero">
+    <div class="hero-copy">
+      <div class="hero-identity">
+        <figure class="profile-photo">
+          {profile.photo.src ? (
+            <img src={profile.photo.src} alt={profile.photo.alt} />
+          ) : (
+            <div class="profile-photo-placeholder" aria-hidden="true">WF</div>
+          )}
+        </figure>
+        <div>
+          <h1 class="profile-name">{profile.name}</h1>
+          <p class="profile-location">{profile.location}</p>
+        </div>
+      </div>
+      <div class="link-row" aria-label="Contact and account links">
+        {profile.links.map((link) => (
+          <a
+            href={link.href}
+            target={link.href.startsWith('http') || link.href.endsWith('.pdf') ? '_blank' : undefined}
+            rel={link.href.startsWith('http') || link.href.endsWith('.pdf') ? 'noopener noreferrer' : undefined}
+          >
+            <Icon name={link.icon} />
+            <span>{link.label}</span>
+          </a>
+        ))}
+      </div>
+      <p class="hero-intro">{profile.intro}</p>
+    </div>
+    <div class="launch-grid dynamic-launch-grid" aria-label="Featured content preview">
+      {tiles.map((tile) => <VisualTile {...tile} />)}
+    </div>
+  </section>
+
+  <section class="section">
+    <SectionHeader
+      kicker="Index"
+      title="Research, work, leisure, notes, and projects in one place."
+      description="A compact content stream keeps the homepage useful now and easy to extend as papers, notes, photos, books, assets, and games are added."
+    />
+    <div class="home-index-layout">
+      <aside class="profile-rail" aria-label="Education and work timeline">
+        <section>
+          <p class="eyebrow">Education</p>
+          <div class="compact-timeline">
+            {profile.education.map((item) => (
+              <article>
+                <span>{item.period}</span>
+                <div class="institution-title education-title">
+                  {item.logo && <img src={item.logo} alt={`${item.school} logo`} loading="lazy" />}
+                  <h3>{item.school}</h3>
+                </div>
+                <p>{item.degree}</p>
+                <small>{item.detail}</small>
+              </article>
+            ))}
+          </div>
+        </section>
+        <section>
+          <p class="eyebrow">Work</p>
+          <div class="compact-timeline">
+            {profile.work.map((item) => (
+              <article>
+                <span>{item.period}</span>
+                <div class="institution-title work-title">
+                  {item.logo && <img src={item.logo} alt={`${item.company} logo`} loading="lazy" />}
+                  <h3>{item.company}</h3>
+                </div>
+                <p>{item.role}</p>
+                <small>{item.detail}</small>
+              </article>
+            ))}
+          </div>
+        </section>
+      </aside>
+      <div class="card-grid index-cards">
+        <Card class="index-card" href="/academic/" label="Academic" title="Publications" meta={`${publications.length} selected entries`} summary="Paper thumbnails, short descriptions, venues, links, and project pages." />
+        <Card class="index-card" href="/life/" label="Leisure" title="Travel, books, games" meta="Personal archive" summary="A lighter record of places, reading, and play, kept visually calm." />
+        <Card class="index-card" href="/notes/" label="Notes" title="Markdown and web books" meta={`${notes.length} public entries`} summary="Selected notes only, with space for longer web-book style writing." />
+        <Card class="index-card" href="/projects/" label="Projects" title="Rendering assets and mini games" meta={`${projects.length} featured entries`} summary="A visual shelf for creative and technical work." />
+        <Card class="index-card index-card-wide" label="Now" title={profile.headline} meta="Homepage draft" summary="Replace the seed data with real academic, professional, and personal material over time." />
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,30 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { getNoteEntries, getRenderedNote } from '../../utils/notes';
+
+export const getStaticPaths = () =>
+  getNoteEntries()
+    .filter((note) => !note.external)
+    .map((note) => ({
+      params: { slug: note.slug },
+    }));
+
+const { slug } = Astro.params;
+const note = slug ? await getRenderedNote(slug) : undefined;
+
+if (!note) {
+  return Astro.redirect('/notes/');
+}
+---
+
+<BaseLayout title={`${note.title} | Notes | Jinfu Wei`} description={note.summary ?? 'A public note by Jinfu Wei.'}>
+  <article class="note-page">
+    <a class="note-back" href="/notes/">Notes</a>
+    <header class="note-header">
+      <p class="hero-meta">{note.type}{note.date ? ` / ${note.date}` : ''}</p>
+      <h1>{note.title}</h1>
+      {note.summary && <p>{note.summary}</p>}
+    </header>
+    <div class="note-content" set:html={note.html} />
+  </article>
+</BaseLayout>

@@ -1,0 +1,16 @@
+[
+  {
+    "title": "Metal-CPP: Array Add",
+    "type": "Markdown",
+    "date": "2026-05-09",
+    "summary": "A public selected note entry. Replace this with a real markdown note later.",
+    "href": "public/assets/notes/metal_compute.md"
+  },
+  {
+    "title": "Metal-cpp Tutorials",
+    "type": "Web Book",
+    "date": "2026-05-09",
+    "summary": "A web book series on Metal-cpp, covering topics from basics to advanced rendering techniques.",
+    "href": "https://weijinfu.github.io/metal-cpp-tutorials"
+  }
+]

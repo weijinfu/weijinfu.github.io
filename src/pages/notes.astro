@@ -1,0 +1,96 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import SectionHeader from '@components/SectionHeader.astro';
+import Card from '@components/Card.astro';
+import { getNoteEntries, getRenderedNote } from '../utils/notes';
+
+const notes = getNoteEntries();
+const markdownNotes = notes.filter((note) => !note.external);
+const webBooks = notes.filter((note) => note.external);
+const renderedMarkdownNotes = (await Promise.all(markdownNotes.map((note) => getRenderedNote(note.slug)))).filter(Boolean);
+---
+
+<BaseLayout title="Notes | Jinfu Wei" description="Selected public notes and web books.">
+  <section class="page-hero">
+    <p class="hero-meta">Notes</p>
+    <h1>Selected notes and web books.</h1>
+    <p>Only public, curated writing is listed here, keeping private drafts and raw notes out of the homepage.</p>
+  </section>
+
+  <section class="section">
+    <SectionHeader title="Public Notes" description="Markdown notes and long-form web-book entries are separated for quicker browsing." />
+    <div class="notes-columns">
+      <section class="note-column" aria-labelledby="markdown-notes-title">
+        <div class="column-heading">
+          <p class="eyebrow">Markdown</p>
+          <h2 id="markdown-notes-title">Notes</h2>
+        </div>
+        <div class="column-card-list">
+          {renderedMarkdownNotes.map((note) => (
+            <button class="content-card note-card-button" type="button" data-note-open={note.slug}>
+              <span class="card-label">{note.type}</span>
+              <div>
+                <h3>{note.title}</h3>
+                {note.date && <p class="card-meta">{note.date}</p>}
+              </div>
+              {note.summary && <p>{note.summary}</p>}
+            </button>
+          ))}
+        </div>
+      </section>
+      <section class="note-column" aria-labelledby="web-books-title">
+        <div class="column-heading">
+          <p class="eyebrow">Web Book</p>
+          <h2 id="web-books-title">Books</h2>
+        </div>
+        <div class="column-card-list">
+          {webBooks.map((note) => <Card href={note.href} label={note.type} title={note.title} meta={note.date} summary={note.summary} />)}
+        </div>
+      </section>
+    </div>
+  </section>
+
+  {renderedMarkdownNotes.map((note) => (
+    <dialog class="note-dialog" data-note-dialog={note.slug} aria-label={note.title}>
+      <div class="note-dialog-header">
+        <div>
+          <p class="hero-meta">{note.type}{note.date ? ` / ${note.date}` : ''}</p>
+          <h2>{note.title}</h2>
+        </div>
+        <button class="album-close" type="button" data-note-close>Close</button>
+      </div>
+      {note.summary && <p class="note-dialog-summary">{note.summary}</p>}
+      <div class="note-dialog-body">
+        <div class="note-content" set:html={note.html} />
+      </div>
+    </dialog>
+  ))}
+
+  <script>
+    const noteDialogs = new Map(
+      [...document.querySelectorAll('[data-note-dialog]')].map((dialog) => [dialog.dataset.noteDialog, dialog])
+    );
+
+    document.querySelectorAll('[data-note-open]').forEach((button) => {
+      button.addEventListener('click', () => {
+        const dialog = noteDialogs.get(button.dataset.noteOpen);
+        if (!dialog) return;
+
+        if (typeof dialog.showModal === 'function') {
+          dialog.showModal();
+        } else {
+          dialog.setAttribute('open', '');
+        }
+      });
+    });
+
+    noteDialogs.forEach((dialog) => {
+      dialog.querySelector('[data-note-close]')?.addEventListener('click', () => dialog.close());
+      dialog.addEventListener('click', (event) => {
+        if (event.target === dialog) {
+          dialog.close();
+        }
+      });
+    });
+  </script>
+</BaseLayout>

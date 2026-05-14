@@ -1,0 +1,12 @@
+---
+const { kicker, title, description, href, linkLabel = 'View all' } = Astro.props;
+---
+
+<div class="section-header">
+  <div>
+    {kicker && <p class="eyebrow">{kicker}</p>}
+    <h2>{title}</h2>
+    {description && <p>{description}</p>}
+  </div>
+  {href && <a class="text-link" href={href}>{linkLabel}</a>}
+</div>

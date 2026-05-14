@@ -1,0 +1,152 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import SectionHeader from '@components/SectionHeader.astro';
+import life from '@data/life.json';
+import { existsSync, readdirSync, statSync } from 'node:fs';
+import path from 'node:path';
+
+const publicDir = path.join(process.cwd(), 'public');
+const browserImageExtensions = new Set(['.jpg', '.jpeg', '.png', '.webp', '.avif', '.gif']);
+
+const normalizeFolderUrl = (folder) => `/${folder.replace(/^\/+/, '').replace(/\/+$/, '')}`;
+const titleFromFolder = (folder) => path.basename(folder).replace(/\s+Series$/i, '').replace(/[-_]+/g, ' ');
+const getAlbumPhotos = (folder) => {
+  const folderUrl = normalizeFolderUrl(folder);
+  const folderPath = path.join(publicDir, folderUrl.replace(/^\//, ''));
+  if (!existsSync(folderPath) || !statSync(folderPath).isDirectory()) {
+    return [];
+  }
+
+  return readdirSync(folderPath)
+    .filter((file) => browserImageExtensions.has(path.extname(file).toLowerCase()))
+    .sort((a, b) => a.localeCompare(b, undefined, { numeric: true }))
+    .map((file) => ({
+      src: `${folderUrl}/${encodeURIComponent(file)}`,
+      alt: `${titleFromFolder(folder)} travel photo`,
+    }));
+};
+
+const travelAlbums = (life.travel || [])
+  .map((album) => {
+    const photos = getAlbumPhotos(album.folder);
+    return {
+      ...album,
+      title: album.title || titleFromFolder(album.folder),
+      place: album.place || titleFromFolder(album.folder),
+      summary: album.summary || `Photo album from ${titleFromFolder(album.folder)}.`,
+      cover: album.cover || photos[0]?.src,
+      photos,
+    };
+  })
+  .filter((album) => album.folder && album.photos.length > 0);
+---
+
+<BaseLayout title="Leisure | Jinfu Wei" description="Travel, books, and game records.">
+  <section class="page-hero">
+    <p class="hero-meta">Leisure</p>
+    <h1>Travel photos, books, and game records.</h1>
+    <p>A personal archive with visual entries for places, reading, and play.</p>
+  </section>
+
+  <section class="section">
+    <SectionHeader title="Travel" description="Photo-led entries for trips and moments." />
+    <div class="travel-card-list">
+      {travelAlbums.map((item, index) => (
+        <>
+          <button class="album-card" type="button" data-album-open={`album-${index}`}>
+            <span class="album-cover">
+              <img src={item.cover} alt={`${item.title} cover`} loading="lazy" />
+              <span class="album-count">{item.photos.length} photos</span>
+            </span>
+            <span class="album-copy">
+              <span class="card-label">{item.place}</span>
+              <strong>{item.title}</strong>
+              <span>{item.summary}</span>
+            </span>
+          </button>
+          <dialog class="album-dialog" id={`album-${index}`}>
+            <div class="album-dialog-header">
+              <div>
+                <span class="card-label">{item.place}</span>
+                <h2>{item.title}</h2>
+              </div>
+              <button type="button" class="album-close" data-album-close={`album-${index}`} aria-label={`Close ${item.title} album`}>Close</button>
+            </div>
+            <div class="album-grid">
+              {item.photos.map((photo) => (
+                <figure>
+                  <img src={photo.src} alt={photo.alt} loading="lazy" />
+                </figure>
+              ))}
+            </div>
+          </dialog>
+        </>
+      ))}
+    </div>
+  </section>
+
+  <section class="section">
+    <SectionHeader title="Books" description="Reading records with cover images." />
+    <div class="column-card-list">
+      {life.books.map((book) => (
+        <article class="album-card life-visual-card">
+          <span class="album-cover life-cover book-cover">
+            <img src={book.image} alt={`${book.title} cover`} loading="lazy" />
+          </span>
+          <span class="album-copy">
+            <span class="card-label">Book · {book.year}</span>
+            <strong>{book.title}</strong>
+            <span>{book.author}</span>
+            <span>{book.note}</span>
+          </span>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="section">
+    <SectionHeader title="Games" description="Game records with horizontal visual covers." />
+    <div class="column-card-list game-card-list">
+      {life.games.map((game) => (
+        <article class="album-card life-visual-card">
+          <span class="album-cover life-cover game-cover">
+            <img src={game.image} alt={`${game.title} cover`} loading="lazy" />
+          </span>
+          <span class="album-copy">
+            <span class="card-label">Game · {game.year}</span>
+            <strong>{game.title}</strong>
+            <span>{game.platform}</span>
+            <span>{game.status}</span>
+          </span>
+        </article>
+      ))}
+    </div>
+  </section>
+  <script>
+    document.querySelectorAll('[data-album-open]').forEach((button) => {
+      button.addEventListener('click', () => {
+        const dialog = document.getElementById(button.getAttribute('data-album-open'));
+        if (dialog instanceof HTMLDialogElement) {
+          dialog.showModal();
+        }
+      });
+    });
+
+    document.querySelectorAll('[data-album-close]').forEach((button) => {
+      button.addEventListener('click', () => {
+        const dialog = document.getElementById(button.getAttribute('data-album-close'));
+        if (dialog instanceof HTMLDialogElement) {
+          dialog.close();
+        }
+      });
+    });
+
+    document.querySelectorAll('.album-dialog').forEach((dialog) => {
+      dialog.addEventListener('click', (event) => {
+        if (event.target === dialog && dialog instanceof HTMLDialogElement) {
+          dialog.close();
+        }
+      });
+    });
+  </script>
+</BaseLayout>
